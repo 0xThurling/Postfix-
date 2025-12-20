@@ -116,6 +116,28 @@ function parseInput(input) {
           return stack.pop();
         }
         break;
+      case 'SEARCH':
+        if (chars.length > 1) {
+          let value = variables[chars[i + 1]];
+
+          if (value === undefined) {
+            return `${chars[i + 1]}: Doesn't exist`;
+          }
+
+          return variables[chars[i + 1]];
+        } else {
+          return `Please enter a variable name - SEARCH [Your Variable]`;
+        }
+      case 'DELETE':
+        if (chars.length > 1) {
+          let key = chars[i + 1];
+
+          variables = Object.fromEntries(Object.entries(variables).filter(([k]) => k !== key));
+
+          return `Removed ${key}`;
+        } else {
+          return `Please enter a variable name - DELETE [Your Variable]`;
+        }
       default:
         const num = Number(chars[i]);
 
