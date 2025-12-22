@@ -24,8 +24,31 @@ function checkIfVariable(character) {
   }
 }
 
+function splitInput(input) {
+  let temp = [];
+
+  let word = "";
+
+  // Split the input by space
+  for (let index = 0; index < input.length; index++) {
+    if (input[index] === " ") {
+      temp.push(word);
+      word = "";
+    } else {
+      word += input[index];
+    }
+  }
+
+  // Catch the final word
+  if (word.length > 0) {
+    temp.push(word);
+  }
+
+  return temp;
+}
+
 function parseInput(input) {
-  let chars = input.split(" ");
+  let chars = splitInput(input);
 
   for (let i = 0; i < chars.length; i++) {
     switch (chars[i]) {
