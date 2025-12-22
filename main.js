@@ -25,26 +25,26 @@ function checkIfVariable(character) {
 }
 
 function splitInput(input) {
-  let temp = [];
+  let tokens = [];
 
-  let word = "";
+  let token = "";
 
   // Split the input by space
   for (let index = 0; index < input.length; index++) {
     if (input[index] === " ") {
-      temp.push(word);
-      word = "";
+      tokens.push(token);
+      token = "";
     } else {
-      word += input[index];
+      token += input[index];
     }
   }
 
-  // Catch the final word
-  if (word.length > 0) {
-    temp.push(word);
+  // Catch the final token
+  if (token.length > 0) {
+    tokens.push(token);
   }
 
-  return temp;
+  return tokens;
 }
 
 function parseInput(input) {
