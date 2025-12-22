@@ -48,10 +48,10 @@ function splitInput(input) {
 }
 
 function parseInput(input) {
-  let chars = splitInput(input);
+  let tokens = splitInput(input);
 
-  for (let i = 0; i < chars.length; i++) {
-    switch (chars[i]) {
+  for (let i = 0; i < tokens.length; i++) {
+    switch (tokens[i]) {
       case '=':
         if (stack.length > 1) {
           let a = stack.pop(), b = stack.pop();
@@ -73,7 +73,7 @@ function parseInput(input) {
             num2 = variables[a];
           }
 
-          let result = operations[chars[i]](num1, num2);
+          let result = operations[tokens[i]](num1, num2);
           stack.push(result);
         } else {
           return stack.pop();
@@ -93,7 +93,7 @@ function parseInput(input) {
             num2 = variables[a];
           }
 
-          let result = operations[chars[i]](num1, num2);
+          let result = operations[tokens[i]](num1, num2);
           stack.push(result);
         } else {
           return stack.pop();
@@ -113,7 +113,7 @@ function parseInput(input) {
             num2 = variables[a];
           }
 
-          let result = operations[chars[i]](num1, num2);
+          let result = operations[tokens[i]](num1, num2);
           stack.push(result);
         } else {
           return stack.pop();
@@ -133,27 +133,27 @@ function parseInput(input) {
             num2 = variables[a];
           }
 
-          let result = operations[chars[i]](num1, num2);
+          let result = operations[tokens[i]](num1, num2);
           stack.push(result);
         } else {
           return stack.pop();
         }
         break;
       case 'SEARCH':
-        if (chars.length > 1) {
-          let value = variables[chars[i + 1]];
+        if (tokens.length > 1) {
+          let value = variables[tokens[i + 1]];
 
           if (value === undefined) {
-            return `${chars[i + 1]}: Doesn't exist`;
+            return `${tokens[i + 1]}: Doesn't exist`;
           }
 
-          return variables[chars[i + 1]];
+          return variables[tokens[i + 1]];
         } else {
           return `Please enter a variable name - SEARCH [Your Variable]`;
         }
       case 'DELETE':
-        if (chars.length > 1) {
-          let key = chars[i + 1];
+        if (tokens.length > 1) {
+          let key = tokens[i + 1];
 
           variables = Object.fromEntries(Object.entries(variables).filter(([k]) => k !== key));
 
@@ -162,14 +162,14 @@ function parseInput(input) {
           return `Please enter a variable name - DELETE [Your Variable]`;
         }
       default:
-        const num = Number(chars[i]);
+        const num = Number(tokens[i]);
 
         if (Number.isFinite(num)) {
           stack.push(num);
         }
 
-        if (checkIfVariable(chars[i])) {
-          stack.push(chars[i]);
+        if (checkIfVariable(tokens[i])) {
+          stack.push(tokens[i]);
         }
         break;
     }
