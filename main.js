@@ -105,6 +105,7 @@ function parseInput(input) {
         }
         break;
       case '-':
+        // Subdivision (same pattern as addition)
         if (stack.length > 1) {
           let a = stack.pop(), b = stack.pop();
 
@@ -125,6 +126,7 @@ function parseInput(input) {
         }
         break;
       case '/':
+        // Division (same pattern as addition)
         if (stack.length > 1) {
           let a = stack.pop(), b = stack.pop();
 
@@ -145,6 +147,7 @@ function parseInput(input) {
         }
         break;
       case '*':
+        // Multiplication (same pattern as addition)
         if (stack.length > 1) {
           let a = stack.pop(), b = stack.pop();
 
@@ -165,6 +168,7 @@ function parseInput(input) {
         }
         break;
       case 'SEARCH':
+        // Lookup a variable by name
         if (tokens.length > 1) {
           let value = variables[tokens[i + 1]];
 
@@ -177,6 +181,7 @@ function parseInput(input) {
           return `Please enter a variable name - SEARCH [Your Variable]`;
         }
       case 'DELETE':
+        // Delete a variable binding
         if (tokens.length > 1) {
           let key = tokens[i + 1];
 
@@ -187,6 +192,7 @@ function parseInput(input) {
           return `Please enter a variable name - DELETE [Your Variable]`;
         }
       default:
+        // Default case: try to parse as number or variable
         const num = Number(tokens[i]);
 
         if (Number.isFinite(num)) {
@@ -200,9 +206,14 @@ function parseInput(input) {
     }
   }
 
+  // Return the last computed value
   return stack.pop();
 }
 
+/**
+ *  Asks a question on the console and returns a Promise that resolves with the
+ *  answer. This allows async/await usage for cleaner REPL loop.
+ */
 function ask(question) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -217,15 +228,20 @@ function ask(question) {
   });
 }
 
+/**
+ *  Main REPL loop: repeatedly ask for input, parse it, print result
+ *  Terminates when user types 'quit'
+ */
 (async () => {
   while (config.processing) {
     const input = await ask('> ');
 
-    // Processing input 
+    // Exit condition
     if (input === 'quit') {
       config.processing = false;
     }
-
+    
+    // Parse and evaluate
     let output = parseInput(input);
     console.log(output);
 
